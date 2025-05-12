@@ -1,0 +1,26 @@
+body {
+  margin: 0;
+  height: 200vh; /* aby byl scroll i na celé stránce */
+}
+
+.outer-container {
+  height: 200px;
+  margin: 100px auto;
+  padding: 20px;
+  background: white;
+  overflow: auto; /* outer scroll */
+  border: 1px solid #ccc;
+  width: 130px;
+}
+
+.inner-scroll {
+  height: 300px;
+  overflow-y: auto; /* inner scroll */
+  background: #e0e0ff;
+  padding: 10px;
+}
+
+.item {
+  height: 100px;
+  border-bottom: 1px solid #aaa;
+}
