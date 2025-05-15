@@ -60,116 +60,156 @@ function App() {
   );
 
   return (
-    <div
-      ref={parentRef}
-      style={{
-        padding: "20px",
-        height: "500px",
-        width: "1000px",
-        overflow: "auto",
-        border: "1px solid #ccc",
-        position: "relative",
-        willChange: "transform",
-      }}
-    >
+    <>
       <div
+        ref={parentRef}
         style={{
-          height: rowVirtualizer.getTotalSize(),
-          width: `${8 * colWidth}px`,
+          padding: "20px",
+          height: "500px",
+          width: "1000px",
+          overflow: "auto",
+          border: "1px solid #ccc",
           position: "relative",
+          willChange: "transform",
         }}
       >
-        {rowVirtualizer.getVirtualItems().map((virtualRow) => {
-          const row = data[virtualRow.index];
-          const sticky = row.cols.slice(0, stickyColumns);
-          const scrollable = row.cols.slice(stickyColumns);
+        <div
+          style={{
+            height: rowVirtualizer.getTotalSize(),
+            width: `${8 * colWidth}px`,
+            position: "relative",
+          }}
+        >
+          {rowVirtualizer.getVirtualItems().map((virtualRow) => {
+            const row = data[virtualRow.index];
+            const sticky = row.cols.slice(0, stickyColumns);
+            const scrollable = row.cols.slice(stickyColumns);
 
-          return (
-            <div
-              key={row.id}
-              style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                transform: `translateY(${virtualRow.start}px)`,
-                display: "flex",
-                width: "100%",
-                height: rowHeight,
-              }}
-            >
+            return (
               <div
+                key={row.id}
                 style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  transform: `translateY(${virtualRow.start}px)`,
                   display: "flex",
-                  width: "max-content",
+                  width: "100%",
                   height: rowHeight,
                 }}
               >
-                {/* Sticky wrapper – drží všechny sticky buňky pohromadě */}
                 <div
                   style={{
                     display: "flex",
-                    position: "sticky",
-                    left: 0,
-                    zIndex: 2,
+                    width: "max-content",
+                    height: rowHeight,
                   }}
                 >
-                  {sticky.map((cell, i) => (
-                    <div
-                      key={i}
-                      style={{
-                        background: "#141414",
-                        padding: "4px 8px",
-                        border: "1px solid #ddd",
-                        width: `${colWidth}px`,
-                        height: "100%",
-                        boxSizing: "border-box",
-                        flexShrink: 0,
-                      }}
-                    >
-                      {cell}
-                    </div>
-                  ))}
-                </div>
+                  {/* Sticky wrapper – drží všechny sticky buňky pohromadě */}
+                  <div
+                    style={{
+                      display: "flex",
+                      position: "sticky",
+                      left: 0,
+                      zIndex: 2,
+                    }}
+                  >
+                    {sticky.map((cell, i) => (
+                      <div
+                        key={i}
+                        style={{
+                          background: "#141414",
+                          padding: "4px 8px",
+                          border: "1px solid #ddd",
+                          width: `${colWidth}px`,
+                          height: "100%",
+                          boxSizing: "border-box",
+                          flexShrink: 0,
+                        }}
+                      >
+                        {cell}
+                      </div>
+                    ))}
+                  </div>
 
-                {/* Resizer – stále sticky */}
-                <div
-                  onMouseDown={startResize}
-                  style={{
-                    position: "sticky",
-                    left: `${stickyTotalWidth}px`,
-                    width: "5px",
-                    height: "100%",
-                    cursor: "col-resize",
-                    background: isResizing ? "#888" : "#ccc",
-                    zIndex: 10,
-                    flexShrink: 0,
-                  }}
-                />
+                  {/* Resizer – stále sticky */}
+                  <div
+                    onMouseDown={startResize}
+                    style={{
+                      position: "sticky",
+                      left: `${stickyTotalWidth}px`,
+                      width: "5px",
+                      height: "100%",
+                      cursor: "col-resize",
+                      background: isResizing ? "#888" : "#ccc",
+                      zIndex: 10,
+                      flexShrink: 0,
+                    }}
+                  />
 
-                {/* Scrollovatelná část */}
-                <div style={{ display: "flex" }}>
-                  {scrollable.map((cell, i) => (
-                    <div
-                      key={i + stickyColumns}
-                      style={{
-                        padding: "4px 8px",
-                        border: "1px solid #ddd",
-                        width: `${scrollColWidth}px`,
-                        height: "100%",
-                        boxSizing: "border-box",
-                        flexShrink: 0,
-                      }}
-                    >
-                      {cell}
-                    </div>
-                  ))}
+                  {/* Scrollovatelná část */}
+                  <div style={{ display: "flex" }}>
+                    {scrollable.map((cell, i) => (
+                      <div
+                        key={i + stickyColumns}
+                        style={{
+                          padding: "4px 8px",
+                          border: "1px solid #ddd",
+                          width: `${scrollColWidth}px`,
+                          height: "100%",
+                          boxSizing: "border-box",
+                          flexShrink: 0,
+                        }}
+                      >
+                        {cell}
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
-    </div>
+      <div
+        style={{
+          width: "300px",
+          height: "300px",
+          overflowY: "auto",
+          border: "2px solid #ccc",
+          margin: "20px",
+          position: "relative",
+        }}
+      >
+        <div
+          style={{
+            width: `${46 * 50 - 400}px`,
+            height: "300px",
+            display: "flex",
+            backgroundColor: "crimson",
+          }}
+        >
+          <div
+            style={{
+              position: "sticky",
+              left: 0,
+              background: "#ffc107",
+              fontWeight: "bold",
+              borderBottom: "2px solid #333",
+              width: "70px",
+              height: "300px",
+              zIndex: 1,
+              flexShrink: 0,
+            }}
+          ></div>
+
+          {/* Dlouhý obsah */}
+          {Array.from({ length: 50 }).map((_, i) => (
+            <div key={i}>Řádek #{i + 1}: Lorem ipsum dolor sit amet...</div>
+          ))}
+        </div>
+      </div>
+    </>
   );
 }
 
